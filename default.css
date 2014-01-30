@@ -1,0 +1,37 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#map_canvas {
+  height: 100%;
+}
+
+#data {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 9px;
+	position:absolute;
+	top: 0px;
+	left:0px;
+	width:80px;
+	background: white;
+	padding:0 5px 0 5px;
+}
+
+#clients {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 9px;
+	position:absolute;
+	top: 0px;
+	right:0px;
+	background: white;
+	padding: 0px;
+	margin: 0px;
+}
+
+table {
+	border-collapse: collapse;
+	display: table;
+	border-spacing: 2px;
+}

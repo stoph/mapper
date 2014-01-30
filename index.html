@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<xmeta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link href="default.css" rel="stylesheet" type="text/css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script src="http://dev.christophkhouri.com:8080/socket.io/socket.io.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
+	
+	<script>
+	function getQueryParams(qs) {
+		qs = qs.split("+").join(" ");
+		var params = {},
+			tokens,
+			re = /[?&]?([^=]+)=([^&]*)/g;
+	
+		while (tokens = re.exec(qs)) {
+			params[decodeURIComponent(tokens[1])]
+				= decodeURIComponent(tokens[2]);
+		}
+	
+		return params;
+	}
+	</script>
+	
+</head>
+<body onload="initialize()">
+	<div id="map_canvas"></div>
+	<div id="clients"></div>
+	<div id="data"></div>
+</body>
+</html>
+
+<script>
+	var map;
+	var markersArray = {};
+	
+	var $_GET = getQueryParams(document.location.search);
+	var filter = false;
+	if ($_GET['ntw_id']) {
+		filter = $_GET['ntw_id'];
+	}
+	
+	function initialize() {
+		var mapOptions = {
+			panControl: false,
+			streetViewControl: false,
+			mapTypeControl: false,
+			zoomControlOptions: {
+				style: google.maps.ZoomControlStyle.SMALL,
+				position: google.maps.ControlPosition.RIGHT_TOP
+			},
+			zoom: 4,
+			center: new google.maps.LatLng(37.09024, -95.712891),
+			mapTypeId: google.maps.MapTypeId.TERRAIN
+		};
+		map =  new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+	}
+	
+	var traffic = io.connect('http://dev.christophkhouri.com:8080');
+	
+	traffic.on('clients', function (data) {
+		$('#clients').text(data.clients + " viewers");
+	});
+	
+	traffic.on('serve', function (data) {
+		if (filter && filter != data.message.ntw_id) {
+			return;
+		}
+		time = new Date();
+		epoch = time.getTime();
+		var randomnumber = epoch + "" + Math.floor(Math.random()*5000);
+		var icon = "";
+		$('#data').html("<div>"+data.message.ntw_id+"</div>");
+				
+		switch(data.message.ntw_id) {
+			case '12345':
+				icon = "http://www.aol.com/favicon.ico";
+				break;
+			default:
+				icon = "blurdot.png";
+		}
+		
+		var point = new google.maps.LatLng(data.message.geo.latitude, data.message.geo.longitude);
+		var marker = new google.maps.Marker({
+			position: point,
+			map: map,
+			icon: icon,
+			title: data.message.ntw_id
+		});
+		markersArray[randomnumber] = marker;
+		setTimeout(function(){ markersArray[randomnumber].setMap(null); delete markersArray[randomnumber]; },5000);
+	});
+	
+</script>
+
