@@ -1,0 +1,24 @@
+{
+  "name": "Mapper",
+  "version": "0.0.1",
+  "description": "Realtime activity mapper",
+  "main": "server.js",
+  "dependencies": {
+    "socket.io": "~0.8.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stoph/Mapper.git"
+  },
+  "author": "Christoph Khouri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stoph/Mapper/issues"
+  },
+  "homepage": "https://github.com/stoph/Mapper"
+}
