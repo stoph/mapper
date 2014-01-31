@@ -80,7 +80,7 @@
 				break;
 			default:
 				icon = "blurdot.png";
-				title = "";
+				title = " ";
 		}
 		
 		$('#data').html("<div>"+title+"("+data.message.ntw_id+")</div>");
@@ -94,8 +94,16 @@
 		});
 		markersArray[randomnumber] = marker;
 		console.log(randomnumber);
-		setTimeout(function(){ markersArray[randomnumber].setMap(null); delete markersArray[randomnumber]; },1000);
+		setTimeout(function(){ markersArray[randomnumber].setMap(null); delete markersArray[randomnumber]; },3000);
 	});
 	
+	$.ajax({
+	    contentType: 'application/json',
+	    data: '{"type":"serve","data":{"ntw_id":12,"geo":{"latitude":"37.7833","longitude":"-122.4167"}}}',
+	    dataType: 'json',
+	    processData: false,
+	    type: 'POST',
+	    url: 'http://162.243.214.166:8080/'
+	});
 </script>
 
