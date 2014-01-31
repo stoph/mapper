@@ -3,8 +3,8 @@
 <head>
 	<xmeta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<link href="default.css" rel="stylesheet" type="text/css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-	<script src="http://dev.christophkhouri.com:8080/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://162.243.214.166:8080/socket.io/socket.io.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
 	
 	<script>
@@ -57,7 +57,7 @@
 		map =  new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 	}
 	
-	var traffic = io.connect('http://dev.christophkhouri.com:8080');
+	var traffic = io.connect('http://162.243.214.166:8080');
 	
 	traffic.on('clients', function (data) {
 		$('#clients').text(data.clients + " viewers");
@@ -71,25 +71,30 @@
 		epoch = time.getTime();
 		var randomnumber = epoch + "" + Math.floor(Math.random()*5000);
 		var icon = "";
-		$('#data').html("<div>"+data.message.ntw_id+"</div>");
+		var title = "";
 				
 		switch(data.message.ntw_id) {
-			case '12345':
-				icon = "http://www.aol.com/favicon.ico";
+			case 12345:
+				icon = "http://assets.tedcdn.com/favicon.ico";
+				title = "TED";
 				break;
 			default:
 				icon = "blurdot.png";
+				title = "";
 		}
 		
+		$('#data').html("<div>"+title+"("+data.message.ntw_id+")</div>");
+
 		var point = new google.maps.LatLng(data.message.geo.latitude, data.message.geo.longitude);
 		var marker = new google.maps.Marker({
 			position: point,
 			map: map,
 			icon: icon,
-			title: data.message.ntw_id
+			title: title
 		});
 		markersArray[randomnumber] = marker;
-		setTimeout(function(){ markersArray[randomnumber].setMap(null); delete markersArray[randomnumber]; },5000);
+		console.log(randomnumber);
+		setTimeout(function(){ markersArray[randomnumber].setMap(null); delete markersArray[randomnumber]; },1000);
 	});
 	
 </script>

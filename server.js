@@ -1,7 +1,8 @@
-var app = require('http').createServer(handler),
-  io = require('socket.io').listen(app),
-  fs = require('fs');
+var app = require('http').createServer(handler);
+var io = require('socket.io').listen(app);
+var static = require('node-static');
 var dgram = require("dgram");
+var file = new(static.Server)();
 
 var connected = 0;
 
@@ -19,27 +20,43 @@ udp_server.on("listening", function () {
 });
 udp_server.bind(41234);
 
-
 function handler (req, res) {
-  res.writeHead(500);
-  return res.end('Nothing to see here');
+	
+	if (req.method == 'POST') {
+		var post_body = "";
+		console.log("[200] " + req.method + " to " + req.url);
+	      
+		req.on('data', function(chunk) {
+			post_body += chunk.toString();
+	    });
+	    
+	    req.on('end', function() {
+	    	 var parsed_message = JSON.parse(post_body);
+	    	 io.sockets.emit(parsed_message.type, { message: parsed_message.data });
+	    	 res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+	    	 res.end();
+	    });
+	} else if (req.method == 'GET') {
+		file.serve(req, res);
+	} else {
+		res.writeHead(405, "Method not supported", {'Content-Type': 'text/html'});
+	    res.end('<html><head><title>405 - Method not supported</title></head><body><h1>Method not supported.</h1></body></html>');
+	}
 }
 
 io.configure(function () {
   io.enable('browser client minification');
   io.enable('browser client etag');
   io.enable('browser client gzip');
-  io.set("origins","dev.christophkhouri.com:*");
+  io.set("origins","162.243.214.166:*");
   io.set('log level', 1);
   io.set('transports', ['websocket','flashsocket','htmlfile','xhr-polling','jsonp-polling']);
 });
-
 
 io.sockets.on('connection', function (socket) {
   connected++;
   var id = socket.id;
   var session = socket.manager.handshaken[id];
-  //console.log(socket.manager.handshaken[id]);
   console.log(session.headers.referer);
   console.log(id + " connected - " + connected + " connected clients");
 	
