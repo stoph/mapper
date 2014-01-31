@@ -48,7 +48,7 @@ io.configure(function () {
   io.enable('browser client minification');
   io.enable('browser client etag');
   io.enable('browser client gzip');
-  io.set("origins","162.243.214.166:*");
+  io.set("origins","*:*");
   io.set('log level', 1);
   io.set('transports', ['websocket','flashsocket','htmlfile','xhr-polling','jsonp-polling']);
 });
