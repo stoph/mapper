@@ -5,7 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "socket.io": "~0.8.7",
-    "node-static": "~0.7.3"
+    "node-static": "~0.7.3",
+    "optimist": "~0.6.0"
   },
   "devDependencies": {},
   "scripts": {

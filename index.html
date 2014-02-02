@@ -6,23 +6,23 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://162.243.214.166:8080/socket.io/socket.io.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
-	
+
 	<script>
 	function getQueryParams(qs) {
 		qs = qs.split("+").join(" ");
 		var params = {},
 			tokens,
 			re = /[?&]?([^=]+)=([^&]*)/g;
-	
+
 		while (tokens = re.exec(qs)) {
 			params[decodeURIComponent(tokens[1])]
 				= decodeURIComponent(tokens[2]);
 		}
-	
+
 		return params;
 	}
 	</script>
-	
+
 </head>
 <body onload="initialize()">
 	<div id="map_canvas"></div>
@@ -34,13 +34,13 @@
 <script>
 	var map;
 	var markersArray = {};
-	
+
 	var $_GET = getQueryParams(document.location.search);
 	var filter = false;
-	if ($_GET['ntw_id']) {
-		filter = $_GET['ntw_id'];
+	if ($_GET['id']) {
+		filter = $_GET['id'];
 	}
-	
+
 	function initialize() {
 		var mapOptions = {
 			panControl: false,
@@ -56,15 +56,15 @@
 		};
 		map =  new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 	}
-	
+
 	var traffic = io.connect('http://162.243.214.166:8080');
-	
+
 	traffic.on('clients', function (data) {
 		$('#clients').text(data.clients + " viewers");
 	});
-	
+
 	traffic.on('serve', function (data) {
-		if (filter && filter != data.message.ntw_id) {
+		if (filter && filter != data.message.id) {
 			return;
 		}
 		time = new Date();
@@ -72,8 +72,8 @@
 		var randomnumber = epoch + "" + Math.floor(Math.random()*5000);
 		var icon = "";
 		var title = "";
-				
-		switch(data.message.ntw_id) {
+
+		switch(data.message.id) {
 			case 12345:
 				icon = "http://assets.tedcdn.com/favicon.ico";
 				title = "TED";
@@ -82,8 +82,8 @@
 				icon = "blurdot.png";
 				title = " ";
 		}
-		
-		$('#data').html("<div>"+title+"("+data.message.ntw_id+")</div>");
+
+		$('#data').html("<div>"+title+"("+data.message.id+")</div>");
 
 		var point = new google.maps.LatLng(data.message.geo.latitude, data.message.geo.longitude);
 		var marker = new google.maps.Marker({
@@ -93,13 +93,12 @@
 			title: title
 		});
 		markersArray[randomnumber] = marker;
-		console.log(randomnumber);
 		setTimeout(function(){ markersArray[randomnumber].setMap(null); delete markersArray[randomnumber]; },3000);
 	});
-	
+
 	$.ajax({
 	    contentType: 'application/json',
-	    data: '{"type":"serve","data":{"ntw_id":12,"geo":{"latitude":"37.7833","longitude":"-122.4167"}}}',
+	    data: '{"type":"serve","data":{"id":12,"geo":{"latitude":"37.7833","longitude":"-122.4167"}}}',
 	    dataType: 'json',
 	    processData: false,
 	    type: 'POST',

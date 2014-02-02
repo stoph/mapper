@@ -1,6 +1,6 @@
 
 #HTTP command line test
-curl -X POST -H "Content-Type: application/json" -d '{"type":"serve","data":{"ntw_id":12345,"geo":{"latitude":28.50,"longitude":-81.14}}}' http://<ip>:8080/
+curl -X POST -H "Content-Type: application/json" -d '{"type":"serve","data":{"id":12345,"geo":{"latitude":28.50,"longitude":-81.14}}}' http://<ip>:8080/
 
 #UDP command line test
-echo -n '{"type":"serve","data":{"ntw_id":12345,"geo":{"latitude":28.50,"longitude":-81.14}}}' >/dev/udp/localhost/41234
+echo -n '{"type":"serve","data":{"id":12345,"geo":{"latitude":28.50,"longitude":-81.14}}}' >/dev/udp/localhost/41234
