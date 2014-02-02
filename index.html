@@ -64,16 +64,17 @@
 	});
 
 	traffic.on('serve', function (data) {
-		if (filter && filter != data.message.id) {
+		console.log(data);
+		if (filter && filter != data.id) {
 			return;
 		}
 		time = new Date();
 		epoch = time.getTime();
-		var randomnumber = epoch + "" + Math.floor(Math.random()*5000);
+		var randomnumber = epoch + "" + Math.floor(Math.random()*50000);
 		var icon = "";
 		var title = "";
 
-		switch(data.message.id) {
+		switch(data.id) {
 			case 12345:
 				icon = "http://assets.tedcdn.com/favicon.ico";
 				title = "TED";
@@ -83,9 +84,9 @@
 				title = " ";
 		}
 
-		$('#data').html("<div>"+title+"("+data.message.id+")</div>");
+		$('#data').html("<div>"+title+"("+data.id+")</div>");
 
-		var point = new google.maps.LatLng(data.message.geo.latitude, data.message.geo.longitude);
+		var point = new google.maps.LatLng(data.geo.latitude, data.geo.longitude);
 		var marker = new google.maps.Marker({
 			position: point,
 			map: map,
@@ -98,7 +99,7 @@
 
 	$.ajax({
 	    contentType: 'application/json',
-	    data: '{"type":"serve","data":{"id":12,"geo":{"latitude":"37.7833","longitude":"-122.4167"}}}',
+	    data: '{"channel":"serve","data":{"id":12,"geo":{"latitude":"37.7833","longitude":"-122.4167"}}}',
 	    dataType: 'json',
 	    processData: false,
 	    type: 'POST',
