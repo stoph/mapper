@@ -28,6 +28,7 @@ udp_server.bind(config.udp.port);
 
 function handler (req, res) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader("Access-Control-Expose-Headers", "Content-Type");
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
 	res.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token');
 	res.setHeader('Access-Control-Max-Age', 3600);
