@@ -3,4 +3,4 @@
 curl -X POST -H "Content-Type: application/json" -d '{"id":12345,"geo":{"latitude":28.50,"longitude":-81.14}}' http://<ip>:8080/serve
 
 #UDP command line test
-echo -n '{"channel":"serve","data":{"id":12345,"geo":{"latitude":28.50,"longitude":-81.14}}}' >/dev/udp/localhost/41234
+echo -n '{"channel":"serve","data":{"id":12345,"geo":{"latitude":28.50,"longitude":-81.14}}}' >/dev/udp/127.0.0.1/41234
