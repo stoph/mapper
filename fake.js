@@ -24,7 +24,7 @@ fake.randomGeo = function() {
 	to = 10;
 	var id = (Math.random() * (to - from) + from).toFixed(0) * 1;
 
-	http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png
+	//http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png
 
 var images = [
 	"http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_purple.png",
@@ -39,7 +39,12 @@ var images = [
 	"http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_brown.png"
 ];
 
-	return {"id":id, "image":images[id-1], "lat":lat, "long":long};
+	return {
+		"id":id,
+		"image":images[id-1],
+		"lat":lat,
+		"long":long
+	};
 
 }
 
