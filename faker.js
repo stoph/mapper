@@ -1,6 +1,6 @@
-var fake = exports;
+var faker = exports;
 
-fake.randomGeo = function() {
+faker.generate = function() {
 
 	/*
 	+48.987386 is the northern most latitude
@@ -21,8 +21,9 @@ fake.randomGeo = function() {
 	var long = (Math.random() * (to - from) + from).toFixed(3) * -1;
 
 	from = 1;
-	to = 10;
-	var id = (Math.random() * (to - from) + from).toFixed(0) * 1;
+	to = 500;
+	var site_id = (Math.random() * (to - from) + from).toFixed(0) * 1;
+	var post_id = site_id * (Math.random() * (to - from) + from).toFixed(0) * 1;
 
 	//http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png
 
@@ -40,8 +41,9 @@ var images = [
 ];
 
 	return {
-		"id":id,
-		"image":images[id-1],
+		"site_id":site_id,
+		"post_id":post_id,
+		"image":images[site_id - 1],
 		"lat":lat,
 		"long":long
 	};

@@ -5,9 +5,6 @@ exports.config = {
     udp: {
     	port: 41234
     },
-    tcp: {
-    	port: 8123
-    },
     ws: {
     	port: 7123
     },
