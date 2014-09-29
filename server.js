@@ -1,4 +1,3 @@
-//var app = require('http').createServer(handler);
 var config = require('./config').config;
 
 var argv = require('optimist').argv;
@@ -12,7 +11,7 @@ var generate_fake_data=argv.fake;
 var connected = 0;
 
 // Setup Redis transport layer
-io.adapter(redis({ host: '127.0.0.1', port: 6379 }));
+io.adapter(redis({ host: config.redis.host, port: config.redis.port }));
 
 // Set up the UDP listener
 var udp_server = dgram.createSocket("udp4");
